@@ -1,13 +1,14 @@
+'use server'
 import {db} from "@/server";
 const GetProducts  = async () => {
     
     try{
-       const products = await db?.query.products.findMany();  
+       const products = await db.query.products.findMany();  
        return products;
     }
     catch(err){
         console.log(err);
-        return {error:err};
+        
     }
 }
 
