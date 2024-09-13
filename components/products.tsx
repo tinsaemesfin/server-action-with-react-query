@@ -1,20 +1,16 @@
 "use client";
 
-import GetProducts from "@/server/action/get-product";
-import { useQuery } from "@tanstack/react-query";
+import { useGetPosts } from "@/server/data/useGetProducts";
 
-const Products = ({products}) => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["products"],
-    queryFn: GetProducts,
-    initialData: products,
-  });
-  if (isLoading) return <div>Loading...</div>;
+const Products = () => {
+  const { data, error, isFetching } = useGetPosts()
+  if (isFetching) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (data)
+//   if (data?.error) return <div>Error from Fake True : {JSON.stringify(data.error)}  </div>;
+  if (data?.products)
     return (
       <div>
-        <h1>{data[0].title}</h1>
+        <h1>{data.products[0].title}</h1>
       </div>
     );
 };

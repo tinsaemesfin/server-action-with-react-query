@@ -6,6 +6,5 @@ export function  useGetPosts() {
   return useQuery({
       queryKey: ["products"],
     queryFn: async () => GetProducts(),
-    refetchInterval:1000*10
   })
 }

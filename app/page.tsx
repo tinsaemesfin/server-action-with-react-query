@@ -1,15 +1,25 @@
 import Products from "@/components/products";
 import GetProducts from "@/server/action/get-product";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient
+}from "@tanstack/react-query";
 
 export default async function Home() {
-  const products = await GetProducts();
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["products"],
+    queryFn: GetProducts,
+  });
  
-  console.log(products)
 
    return (
     <div>
       <h1>Home Page</h1>
-      <Products products={products} />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+      <Products />
+      </HydrationBoundary>
     </div>
   );
 }
