@@ -1,20 +1,22 @@
-'use client'
+"use client";
 
-import { useGetPosts } from "@/server/data/useGetProducts"
+import GetProducts from "@/server/action/get-product";
+import { useQuery } from "@tanstack/react-query";
 
-
-
-const Products = () => {
-    const { data: products, error: productError, fetchStatus } = useGetPosts();
-    if(fetchStatus === 'fetching') return <div>Loading...</div>
-    if(productError) return <div>Error: {productError.message}</div>
-    if(products)   
-
+const Products = ({products}) => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: GetProducts,
+    initialData: products,
+  });
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (data)
     return (
-        <div>
-  PRoduct Page            {JSON.stringify(products)}
-        </div>
-  )
-}
+      <div>
+        <h1>{data[0].title}</h1>
+      </div>
+    );
+};
 
-export default Products
+export default Products;
